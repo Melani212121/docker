@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tareas Pendientes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Tareas Pendientes</h1>
+        <form action="/add" method="POST">
+            <input type="text" name="task" placeholder="Agregar una tarea" required>
+            <button type="submit">Agregar</button>
+        </form>
+
+        <ul>
+            {% for task in tasks %}
+                <li class="{{ 'completed' if task['completed'] else '' }}">
+                    {{ task['task'] }}
+                    {% if not task['completed'] %}
+                        <a href="/complete/{{ loop.index0 }}">Marcar como completada</a>
+                    {% endif %}
+                    <a href="/delete/{{ loop.index0 }}">Eliminar</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
